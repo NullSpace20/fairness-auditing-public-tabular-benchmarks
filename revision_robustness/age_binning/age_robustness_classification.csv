@@ -1,0 +1,4 @@
+dataset,dataset_label,classification,mean_cfs_middle_vs_rest,mean_cfs_young_vs_rest,mean_cfs_older_vs_rest,interpretation_note
+acs_income_ca_2018,ACSIncome CA 2018,partially robust,0.2109534623962226,0.2746458450707726,0.07298847279055358,"Age-related disparity remains under the original coding and at least one alternative, but weakens under the other alternative coding."
+adult,Adult Income,partially robust,0.2397985813442351,0.27200228234589374,0.039037878955991215,"Age-related disparity remains under the original coding and at least one alternative, but weakens under the other alternative coding."
+bank_uci,UCI Bank Marketing,robust,0.5271476737600318,0.19840340043667287,1.854168949441942,"Mean CFS stays above a modest floor under all three codings, so age-related disparity remains visible under alternative groupings."

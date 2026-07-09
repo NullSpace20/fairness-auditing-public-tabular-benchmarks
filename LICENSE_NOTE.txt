@@ -1,0 +1,6 @@
+LICENSE NOTE
+============
+
+No license file is included in this draft release package.
+
+Before public upload, the authors must choose and add an appropriate license.

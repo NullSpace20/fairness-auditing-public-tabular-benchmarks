@@ -1,0 +1,8 @@
+dataset,protected_attribute,classification,min_spearman_rho,mean_spearman_rho,min_top3_overlap,all_top1_same
+acs_income_ca_2018,age_group,stable,0.982843137254902,0.9934640522875817,2,True
+acs_income_ca_2018,sex,sensitive,-0.28186274509803927,0.14542483660130714,0,False
+adult,age_group,stable,0.965686274509804,0.988562091503268,2,True
+adult,race,moderately sensitive,0.8823529411764707,0.9607843137254902,2,False
+adult,sex,sensitive,0.556140350877193,0.8467836257309941,1,False
+bank_uci,age_group,moderately sensitive,0.7228070175438598,0.8005847953216375,1,False
+bank_uci,job_group,moderately sensitive,0.7426470588235294,0.8880718954248366,1,False

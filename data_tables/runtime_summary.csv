@@ -1,0 +1,56 @@
+run_block,dataset,model,mitigation,n,mean_runtime_s,sum_runtime_s
+optional_main_grid_extension,ACSIncome (CA 2018),Gradient Boosting,Baseline,60,4.259,255.55
+optional_main_grid_extension,ACSIncome (CA 2018),Gradient Boosting,Equalized Odds,60,6.232,373.9
+optional_main_grid_extension,ACSIncome (CA 2018),Gradient Boosting,Reweighing,60,4.199,251.96
+optional_main_grid_extension,ACSIncome (CA 2018),MLP,Baseline,60,24.853,1491.18
+optional_main_grid_extension,ACSIncome (CA 2018),MLP,Equalized Odds,60,37.43,2245.79
+optional_main_grid_extension,ACSIncome (CA 2018),MLP,Reweighing,60,33.514,2010.86
+optional_main_grid_extension,ACSIncome (CA 2018),XGBoost,Baseline,60,1.395,83.73
+optional_main_grid_extension,ACSIncome (CA 2018),XGBoost,Equalized Odds,60,2.271,136.25
+optional_main_grid_extension,ACSIncome (CA 2018),XGBoost,Reweighing,60,1.182,70.93
+optional_main_grid_extension,Adult,Gradient Boosting,Baseline,90,10.339,930.54
+optional_main_grid_extension,Adult,Gradient Boosting,Equalized Odds,90,15.089,1358.04
+optional_main_grid_extension,Adult,Gradient Boosting,Reweighing,90,11.537,1038.31
+optional_main_grid_extension,Adult,MLP,Baseline,90,45.977,4137.97
+optional_main_grid_extension,Adult,MLP,Equalized Odds,90,84.133,7572.01
+optional_main_grid_extension,Adult,MLP,Reweighing,90,165.049,14854.45
+optional_main_grid_extension,Adult,XGBoost,Baseline,90,4.59,413.12
+optional_main_grid_extension,Adult,XGBoost,Equalized Odds,90,7.861,707.49
+optional_main_grid_extension,Adult,XGBoost,Reweighing,90,4.948,445.28
+optional_main_grid_extension,UCI Bank,Gradient Boosting,Baseline,60,10.234,614.04
+optional_main_grid_extension,UCI Bank,Gradient Boosting,Equalized Odds,60,16.333,980.0
+optional_main_grid_extension,UCI Bank,Gradient Boosting,Reweighing,60,10.037,602.24
+optional_main_grid_extension,UCI Bank,MLP,Baseline,60,64.139,3848.31
+optional_main_grid_extension,UCI Bank,MLP,Equalized Odds,60,62.865,3771.87
+optional_main_grid_extension,UCI Bank,MLP,Reweighing,60,146.935,8816.11
+optional_main_grid_extension,UCI Bank,XGBoost,Baseline,60,6.32,379.2
+optional_main_grid_extension,UCI Bank,XGBoost,Equalized Odds,60,10.047,602.82
+optional_main_grid_extension,UCI Bank,XGBoost,Reweighing,60,6.037,362.21
+required,ACSIncome (CA 2018),Logistic Regression,Baseline,60,0.291,17.45
+required,ACSIncome (CA 2018),Logistic Regression,EG (Demographic Parity),60,2.938,176.29
+required,ACSIncome (CA 2018),Logistic Regression,EG (Equalized Odds),60,3.834,230.04
+required,ACSIncome (CA 2018),Logistic Regression,Equalized Odds,60,0.456,27.35
+required,ACSIncome (CA 2018),Logistic Regression,Reweighing,60,0.346,20.78
+required,ACSIncome (CA 2018),Random Forest,Baseline,60,10.293,617.56
+required,ACSIncome (CA 2018),Random Forest,Equalized Odds,60,15.842,950.52
+required,ACSIncome (CA 2018),Random Forest,Reweighing,60,11.312,678.7
+required,Adult,Logistic Regression,Baseline,90,0.351,31.56
+required,Adult,Logistic Regression,EG (Demographic Parity),90,5.723,515.08
+required,Adult,Logistic Regression,EG (Equalized Odds),90,6.564,590.78
+required,Adult,Logistic Regression,Equalized Odds,90,0.522,47.02
+required,Adult,Logistic Regression,Reweighing,90,0.507,45.67
+required,Adult,Random Forest,Baseline,90,5.651,508.59
+required,Adult,Random Forest,EG (Demographic Parity),30,175.869,5276.08
+required,Adult,Random Forest,EG (Equalized Odds),30,263.931,7917.93
+required,Adult,Random Forest,Equalized Odds,90,9.304,837.35
+required,Adult,Random Forest,Reweighing,90,5.803,522.23
+required,UCI Bank,Logistic Regression,Baseline,60,0.754,45.25
+required,UCI Bank,Logistic Regression,EG (Demographic Parity),60,14.953,897.17
+required,UCI Bank,Logistic Regression,EG (Equalized Odds),60,12.363,741.77
+required,UCI Bank,Logistic Regression,Equalized Odds,60,1.112,66.74
+required,UCI Bank,Logistic Regression,Reweighing,60,0.944,56.62
+required,UCI Bank,Random Forest,Baseline,60,7.798,467.88
+required,UCI Bank,Random Forest,EG (Demographic Parity),30,213.08,6392.41
+required,UCI Bank,Random Forest,EG (Equalized Odds),30,263.217,7896.51
+required,UCI Bank,Random Forest,Equalized Odds,60,12.808,768.46
+required,UCI Bank,Random Forest,Reweighing,60,8.093,485.56

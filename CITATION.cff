@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code, please cite the associated manuscript."
+title: "Fairness Auditing in Public Tabular Benchmarks: A Multi-Dataset Study of Bias and Mitigation"
+authors:
+  - family-names: Samy
+    given-names: M.
+    email: mahmoud_samy@alexu.edu.eg
+  - family-names: Lazem
+    given-names: Shaimaa
+  - family-names: Gabr
+    given-names: M. M.
+  - family-names: "El-Nadi"
+    given-names: "Khairia El-Said"
+  - family-names: Fatehy
+    given-names: L. M.
+version: 1.0.0
+date-released: 2026-07-09
+keywords:
+  - algorithmic fairness
+  - tabular benchmarks
+  - bias mitigation
+  - reproducibility
+repository-code: ""
+url: ""
+license: ""

@@ -1,0 +1,6 @@
+model,datasets,aif360_mitigations,exponentiated_gradient,eg_datasets,scope
+Gradient Boosting,ACSIncome (CA 2018); Adult; UCI Bank,baseline; reweighing; equalized_odds,no,--,main-grid only
+Logistic Regression,ACSIncome (CA 2018); Adult; UCI Bank,baseline; reweighing; equalized_odds,yes,ACSIncome (CA 2018); Adult; UCI Bank,full
+MLP,ACSIncome (CA 2018); Adult; UCI Bank,baseline; reweighing; equalized_odds,no,--,main-grid only
+Random Forest,ACSIncome (CA 2018); Adult; UCI Bank,baseline; reweighing; equalized_odds,yes,Adult; UCI Bank,limited
+XGBoost,ACSIncome (CA 2018); Adult; UCI Bank,baseline; reweighing; equalized_odds,no,--,main-grid only

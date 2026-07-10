@@ -1,13 +1,23 @@
 # DOI release note
 
-## Current status
+## Assigned identifiers
 
-No DOI or public archive URL is assigned to this release yet.
+| Resource | URL / DOI |
+|----------|-----------|
+| GitHub repository | https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks |
+| Zenodo version DOI (this release) | https://doi.org/10.5281/zenodo.21284708 |
+| Zenodo concept DOI (series) | https://doi.org/10.5281/zenodo.21284707 |
 
-## Recommended steps
+## Manuscript citation policy
 
-1. Upload `Public_Repository_Release_Package.zip` to a public repository and Zenodo.
-2. Obtain the assigned DOI from Zenodo.
-3. Update the manuscript Availability statement, `README.md`, and `CITATION.cff` with the actual DOI.
+- Use the **version DOI** `10.5281/zenodo.21284708` in the manuscript Availability
+  statement and in `CITATION.cff`.
+- The Zenodo badge in `README.md` links to the concept DOI (`10.5281/zenodo.21284707`)
+  for the repository series; do not substitute the concept DOI for the version DOI in
+  the manuscript.
 
-Do not invent or publish a fake DOI.
+## Status
+
+DOI and repository URLs are assigned. The manuscript Availability statement,
+`README.md`, `CITATION.cff`, and `REPRODUCIBILITY_FACT_SHEET.md` have been updated
+accordingly.

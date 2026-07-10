@@ -1,6 +1,6 @@
 # Reproducibility Fact Sheet
 
-Fairness Auditing in Public Tabular Benchmarks: A Multi-Dataset Study of Bias and Mitigation
+Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness
 
 ## Software environment
 - Python 3.8.5 (CPython).
@@ -33,15 +33,21 @@ Fairness Auditing in Public Tabular Benchmarks: A Multi-Dataset Study of Bias an
 
 ## Run tally (verified)
 - 3,690 completed main-grid runs; 0 failed, 0 skipped, 0 duplicate rows.
-- Reviewer-driven robustness outputs (age binning, EO calibration, CFS sensitivity) are
-  in `revision_robustness/`; they supplement but do not replace the main result files.
+- Additional robustness outputs (age binning, EO calibration, CFS sensitivity, Adult
+  intersectional baseline, 30-seed XGBoost--EG probe) are in `revision_robustness/`;
+  they supplement but do not replace the main result files.
+- The XGBoost--EG probe (180 runs on three settings; `revision_robustness/xgboost_eg_probe/`)
+  is separate from the original 3,690-run main grid and is not merged into main-grid averages.
 
 ## How to reproduce analysis outputs
 1. Create a Python 3.8.5 environment and `pip install -r requirements.txt`.
 2. Obtain raw datasets from the public sources above (not included in this package).
 3. Per-seed results: `data_tables/per_seed_full_results_3690.csv`.
 4. Post-processing scripts are in `code/` (`phase5a_core.py`, `run_phase5a.py`,
-   `build_manuscript_assets.py`; `pipeline_core.py` is a shared dependency).
+   `build_manuscript_assets.py`, `sam_fair_select.py`, `run_xgboost_eg_probe.py`;
+   `pipeline_core.py` is a shared dependency).
 
-No public repository or persistent DOI is associated with this submission yet.
-After archiving, update the manuscript Availability statement with the assigned DOI.
+## Public archive
+
+- GitHub: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
+- Zenodo (this release): https://doi.org/10.5281/zenodo.21284708

@@ -4,9 +4,9 @@
 |------|------|---------|
 | `README.md` | Documentation | Repository overview, reproduction steps, data policy |
 | `FILE_MANIFEST.md` | Documentation | This file listing |
-| `DOI_RELEASE_NOTE.md` | Documentation | Instructions for DOI assignment after upload |
+| `DOI_RELEASE_NOTE.md` | Documentation | Assigned DOI and repository URLs |
 | `LICENSE_NOTE.txt` | Documentation | License placeholder before public release |
-| `CITATION.cff` | Documentation | Citation metadata (no DOI until assigned) |
+| `CITATION.cff` | Documentation | Citation metadata (version DOI assigned) |
 | `REPRODUCIBILITY_FACT_SHEET.md` | Documentation | Environment, split protocol, scope, run tally |
 | `requirements.txt` | Documentation | Pinned Python dependencies |
 | `data_tables/` | Processed results | Main 30-seed aggregates, per-seed CSV, tests, rankings |

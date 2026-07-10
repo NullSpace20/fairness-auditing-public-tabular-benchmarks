@@ -88,7 +88,8 @@ def build_dataset_provenance() -> None:
         "records; a stratified subsample capped at 50{,}000 rows (final 49{,}999) is drawn "
         "with a fixed seed, and experiment seeds affect only train/test splits. UCI Bank "
         "is the canonical \\texttt{bank-additional-full.csv}; \\texttt{duration} is dropped "
-        "before training.}\n"
+        "before training. Adult uses the local UCI training-partition mirror (\\texttt{adult.csv}); "
+        "ACSIncome is Folktables-generated and has no single archived file hash in this release.}\n"
     )
     write("tab_dataset_provenance", wrap_table(inner, "Dataset provenance and fingerprints for the exact files used in all 3{,}690 runs.", "tab:dataset-summary") + note)
 
@@ -196,21 +197,61 @@ def build_pareto() -> None:
 
 
 def build_best_pairs() -> None:
-    df = pd.read_csv(SUPP / "supp_best_model_mitigation_pairs.csv")
+    agg = pd.read_csv(SUPP / "full_aggregate_30seed.csv")
+    pairs = pd.read_csv(SUPP / "supp_best_model_mitigation_pairs.csv")
+    main_grid = agg[agg["mitigation"].isin(["baseline", "reweighing", "equalized_odds"])]
+
+    rows = []
+    for (ds_key, prot), g in main_grid.groupby(["dataset", "protected_attribute"]):
+        mg_best = g.loc[g["mean_cfs"].idxmin()]
+        overall = pairs[
+            (pairs["dataset"] == core.DATASET_LABEL[ds_key])
+            & (pairs["protected_attribute"] == prot)
+        ].iloc[0]
+        rows.append({
+            "dataset": core.DATASET_LABEL[ds_key],
+            "protected_attribute": prot,
+            "mg_model": core.MODEL_LABEL[mg_best["model"]],
+            "mg_mitigation": core.MITIGATION_LABEL[mg_best["mitigation"]],
+            "mg_cfs": mg_best["mean_cfs"],
+            "overall_model": overall["best_fairness_model"],
+            "overall_mitigation": overall["best_fairness_mitigation"],
+            "overall_cfs": overall["best_fairness_cfs"],
+            "best_accuracy_model": overall["best_accuracy_model"],
+            "best_accuracy_value": overall["best_accuracy_value"],
+        })
+    df = pd.DataFrame(rows)
+
     def fmt(r):
         return " & ".join([
             esc(r["dataset"]), esc(r["protected_attribute"]),
-            esc(r["best_fairness_model"]), esc(r["best_fairness_mitigation"]),
-            f"{r['best_fairness_cfs']:.3f}", f"{r['best_fairness_accuracy']:.3f}",
+            esc(r["mg_model"]), esc(r["mg_mitigation"]), f"{r['mg_cfs']:.3f}",
+            esc(r["overall_model"]), esc(r["overall_mitigation"]), f"{r['overall_cfs']:.3f}",
             esc(r["best_accuracy_model"]), f"{r['best_accuracy_value']:.3f}",
         ])
-    inner = tabular(
-        df, "llllrrlr",
-        ["Dataset", "Protected", "Fairest model", "Fairest mit.", "CFS", "Acc",
-         "Most acc. model", "Acc"],
-        fmt,
+
+    inner = (
+        "\\begin{tabular}{llllrllrlr}\n"
+        "\\toprule\n"
+        "& & \\multicolumn{3}{c}{\\textbf{Main-grid lowest CFS}} "
+        "& \\multicolumn{3}{c}{\\textbf{Lowest CFS (incl.\\ scoped EG)}} "
+        "& \\multicolumn{2}{c}{\\textbf{Highest accuracy}} \\\\\n"
+        "\\cmidrule(lr){3-5}\\cmidrule(lr){6-8}\\cmidrule(lr){9-10}\n"
+        "\\textbf{Dataset} & \\textbf{Protected} & \\textbf{Model} & \\textbf{Mit.} & \\textbf{CFS} "
+        "& \\textbf{Model} & \\textbf{Mit.} & \\textbf{CFS} & \\textbf{Model} & \\textbf{Acc.} \\\\\n"
+        "\\midrule\n"
     )
-    write("tab_best_pairs", wrap_table(inner, "Lowest-CFS and highest-accuracy configurations per setting (30-seed means).", "tab:best-pairs", small=True))
+    for _, r in df.iterrows():
+        inner += fmt(r) + " \\\\\n"
+    inner += "\\bottomrule\n\\end{tabular}"
+
+    caption = (
+        "Main-grid and scoped lowest-CFS configurations per setting (30-seed means). "
+        "Main-grid columns use Baseline, Reweighing, and Equalized Odds across all five model families. "
+        "Scoped-EG columns add Exponentiated Gradient where evaluated (not the XGBoost--EG probe). "
+        "EG entries should not be read as full-family comparisons."
+    )
+    write("tab_best_pairs", wrap_table(inner, caption, "tab:best-pairs", small=True))
 
 
 def build_stats() -> None:
@@ -289,7 +330,7 @@ def fig_pipeline() -> None:
         ("Models + mitigations", "5 models + scoped mitigations\n(Baseline, Reweighing, EO;\nEG-DP/EO where in scope)"),
         ("Fairness + accuracy", "SPD, DI, EOD, AOD;\naccuracy, F1; CFS / ACFS"),
         ("Repeated splits", "30 seeds (42\u201371);\nbootstrap CIs, Cohen's $d_z$,\nHolm-adjusted paired tests"),
-        ("Ranking + audit", "Pareto frontier,\ncomposite ranking,\naudit-support selection"),
+        ("Ranking + audit", "Pareto frontier,\ncomposite ranking,\nSAM-Fair selection"),
     ]
     palette = [
         ("#dbeafe", "#1d4ed8"),
@@ -353,25 +394,64 @@ def fig_pipeline() -> None:
 
 
 def fig_pareto(agg: pd.DataFrame) -> None:
+    main_grid = {"baseline", "reweighing", "equalized_odds"}
+    eg_mits = {"ExponentiatedGradient_DP", "ExponentiatedGradient_EO"}
+    main_markers = {"baseline": "o", "reweighing": "s", "equalized_odds": "^"}
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-    markers = {"baseline": "o", "reweighing": "s", "equalized_odds": "^",
-               "ExponentiatedGradient_DP": "D", "ExponentiatedGradient_EO": "P"}
     for ax, ds in zip(axes, core.EXPECTED_DATASETS):
         sub = agg[agg["dataset"] == ds]
-        for mit, mk in markers.items():
-            s = sub[sub["mitigation"] == mit]
+        # Main-grid frontier (baseline, Reweighing, Equalized Odds across all families).
+        main = sub[sub["mitigation"].isin(main_grid)]
+        for mit, mk in main_markers.items():
+            s = main[main["mitigation"] == mit]
             if s.empty:
                 continue
-            ax.scatter(s["mean_accuracy"].to_numpy(), s["mean_cfs"].to_numpy(),
-                       marker=mk, s=45, alpha=0.75, label=core.MITIGATION_LABEL[mit])
-        front = core.pareto_front(sub, "mean_accuracy", "mean_cfs").sort_values("mean_accuracy")
-        ax.plot(front["mean_accuracy"].to_numpy(), front["mean_cfs"].to_numpy(), "k--", lw=1, alpha=0.6)
-        ax.set_title(core.DATASET_LABEL[ds])  # panel key (dataset), kept
+            ax.scatter(
+                s["mean_accuracy"].to_numpy(),
+                s["mean_cfs"].to_numpy(),
+                marker=mk,
+                s=45,
+                alpha=0.75,
+                label=core.MITIGATION_LABEL[mit],
+            )
+        front = core.pareto_front(main, "mean_accuracy", "mean_cfs").sort_values("mean_accuracy")
+        ax.plot(
+            front["mean_accuracy"].to_numpy(),
+            front["mean_cfs"].to_numpy(),
+            "k--",
+            lw=1.2,
+            alpha=0.7,
+            label="Main-grid Pareto frontier",
+        )
+        # Scoped EG overlay (not used in frontier computation).
+        eg = sub[sub["mitigation"].isin(eg_mits)]
+        if not eg.empty:
+            ax.scatter(
+                eg["mean_accuracy"].to_numpy(),
+                eg["mean_cfs"].to_numpy(),
+                marker="X",
+                s=55,
+                alpha=0.85,
+                c="crimson",
+                edgecolors="k",
+                linewidths=0.4,
+                label="Scoped EG overlay",
+            )
+        ax.set_title(core.DATASET_LABEL[ds])
         ax.set_xlabel("Mean accuracy")
         ax.set_ylabel("Mean CFS (lower = fairer)")
         ax.grid(True, alpha=0.3)
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=5, bbox_to_anchor=(0.5, -0.05))
+    # Deduplicate legend entries (frontier/EG repeated per panel).
+    seen = set()
+    h2, l2 = [], []
+    for h, lab in zip(handles, labels):
+        if lab in seen:
+            continue
+        seen.add(lab)
+        h2.append(h)
+        l2.append(lab)
+    fig.legend(h2, l2, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.08), fontsize=8)
     fig.tight_layout()
     _save(fig, "fig_pareto_accuracy_fairness")
 

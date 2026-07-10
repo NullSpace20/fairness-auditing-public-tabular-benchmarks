@@ -1,8 +1,13 @@
-# Fairness Auditing in Public Tabular Benchmarks
+# Fairness Auditing in Tabular Machine Learning
+
+[![DOI](https://zenodo.org/badge/1295670467.svg)](https://doi.org/10.5281/zenodo.21284707)
 
 Processed outputs, analysis code, and reproducibility materials for the manuscript
-*Fairness Auditing in Public Tabular Benchmarks: A Multi-Dataset Study of Bias and Mitigation*
+*Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness*
 (Journal of Big Data).
+
+**Repository:** https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks  
+**Zenodo (this release):** https://doi.org/10.5281/zenodo.21284708
 
 ## Authors
 
@@ -15,7 +20,7 @@ Contact: mahmoud_samy@alexu.edu.eg
 This repository archives the processed results and scripts from a 30-seed fairness
 audit on three public tabular benchmarks (Adult Income, UCI Bank Marketing, ACSIncome
 California sample). It includes main-grid results (3,690 runs), post-processing tables,
-manuscript figures, and reviewer-driven robustness checks (age binning, Equalized Odds
+manuscript figures, and additional robustness checks (age binning, Equalized Odds
 calibration, CFS/DI sensitivity).
 
 ## What is included
@@ -60,9 +65,9 @@ the archived CSVs in `revision_robustness/` document the reported sensitivity ch
 
 ## Archiving and DOI
 
-This package is intended for public archiving (e.g. GitHub and Zenodo). **No DOI is
-assigned yet.** After upload and DOI assignment, update the manuscript Availability
-statement and this README with the actual DOI. See `DOI_RELEASE_NOTE.md`.
+This release is archived on Zenodo. Cite version DOI **10.5281/zenodo.21284708**
+(https://doi.org/10.5281/zenodo.21284708). The Zenodo badge above links to the
+concept DOI record for the repository series.
 
 ## License
 
@@ -70,4 +75,4 @@ See `LICENSE_NOTE.txt`. Authors must choose a license before public release.
 
 ## Citation
 
-See `CITATION.cff` for metadata. Update the `doi` field after Zenodo registration.
+See `CITATION.cff` for metadata. Preferred citation uses DOI `10.5281/zenodo.21284708`.

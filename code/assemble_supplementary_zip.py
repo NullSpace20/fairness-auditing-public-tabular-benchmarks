@@ -1,7 +1,7 @@
 """Assemble the Journal of Big Data supplementary package (Additional file 1).
 
 Copies existing Q1-upgrade outputs into the supplementary package folder,
-syncs reviewer-driven robustness outputs (R2A--R2C), writes pinned
+syncs additional robustness outputs (R2A--R2C), writes pinned
 requirements and the reproducibility fact sheet, and optionally rebuilds
 Supplementary_Information.pdf and the distributable ZIP.
 
@@ -29,8 +29,8 @@ PKG = MS / "Supplementary_Materials_and_Reproducibility_Package"
 SUP_ZIP = MS / "Supplementary_Materials_and_Reproducibility_Package.zip"
 
 MANUSCRIPT_TITLE = (
-    "Fairness Auditing in Public Tabular Benchmarks: "
-    "A Multi-Dataset Study of Bias and Mitigation"
+    "Fairness Auditing in Tabular Machine Learning: "
+    "A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness"
 )
 
 # Never removed or overwritten by sync (curated in the manuscript folder).
@@ -76,6 +76,10 @@ COPY = [
     (CODE / "run_phase5a.py", "code/run_phase5a.py"),
     (CODE / "build_manuscript_assets.py", "code/build_manuscript_assets.py"),
     (CODE / "pipeline_core.py", "code/pipeline_core.py"),
+    (CODE / "sam_fair_select.py", "code/sam_fair_select.py"),
+    (CODE / "run_intersectional_adult_baseline.py", "code/run_intersectional_adult_baseline.py"),
+    (CODE / "run_xgboost_eg_probe.py", "code/run_xgboost_eg_probe.py"),
+    (CODE / "build_xgboost_eg_probe_table.py", "code/build_xgboost_eg_probe_table.py"),
 ]
 
 FIG_NAMES = [
@@ -91,6 +95,8 @@ FIG_NAMES = [
 R2A = Q1 / "results" / "revision_R2_age_robustness"
 R2B = Q1 / "results" / "revision_R2B_eo_calibration"
 R2C = Q1 / "results" / "revision_R2C_cfs_sensitivity"
+R2_INTER = Q1 / "results" / "intersectional_adult_baseline"
+R2_XGB = Q1 / "results" / "xgboost_eg_probe"
 
 REVISION_COPY: list[tuple[Path, str, list[str]]] = [
     (
@@ -123,6 +129,27 @@ REVISION_COPY: list[tuple[Path, str, list[str]]] = [
             "cfs_top_configurations.csv",
             "cfs_sensitivity_classification.csv",
             "cfs_claim_check.csv",
+        ],
+    ),
+    (
+        R2_INTER,
+        "revision_robustness/intersectional_adult_baseline",
+        [
+            "intersectional_per_seed.csv",
+            "intersectional_summary.csv",
+            "run_metadata.json",
+        ],
+    ),
+    (
+        R2_XGB,
+        "revision_robustness/xgboost_eg_probe",
+        [
+            "xgboost_eg_probe_feasibility_per_seed.csv",
+            "xgboost_eg_probe_feasibility_summary.csv",
+            "xgboost_eg_probe_feasibility_metadata.json",
+            "xgboost_eg_probe_full_per_seed.csv",
+            "xgboost_eg_probe_full_summary.csv",
+            "xgboost_eg_probe_full_metadata.json",
         ],
     ),
 ]
@@ -224,18 +251,24 @@ def write_repro_fact_sheet() -> None:
 
 ## Run tally (verified)
 - 3,690 completed main-grid runs; 0 failed, 0 skipped, 0 duplicate rows.
-- Reviewer-driven robustness outputs (age binning, EO calibration, CFS sensitivity) are
-  in `revision_robustness/`; they supplement but do not replace the main result files.
+- Additional robustness outputs (age binning, EO calibration, CFS sensitivity, Adult
+  intersectional baseline, 30-seed XGBoost--EG probe) are in `revision_robustness/`;
+  they supplement but do not replace the main result files.
+- The XGBoost--EG probe (180 runs on three settings; `revision_robustness/xgboost_eg_probe/`)
+  is separate from the original 3,690-run main grid and is not merged into main-grid averages.
 
 ## How to reproduce analysis outputs
 1. Create a Python {ENV['python']} environment and `pip install -r requirements.txt`.
 2. Obtain raw datasets from the public sources above (not included in this package).
 3. Per-seed results: `data_tables/per_seed_full_results_3690.csv`.
 4. Post-processing scripts are in `code/` (`phase5a_core.py`, `run_phase5a.py`,
-   `build_manuscript_assets.py`; `pipeline_core.py` is a shared dependency).
+   `build_manuscript_assets.py`, `sam_fair_select.py`, `run_xgboost_eg_probe.py`;
+   `pipeline_core.py` is a shared dependency).
 
-No public repository or persistent DOI is associated with this submission yet.
-After archiving, update the manuscript Availability statement with the assigned DOI.
+## Public archive
+
+- GitHub: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
+- Zenodo (this release): https://doi.org/10.5281/zenodo.21284708
 """
     (PKG / "REPRODUCIBILITY_FACT_SHEET.md").write_text(txt, encoding="utf-8")
 
@@ -278,10 +311,11 @@ def rebuild_supplementary_information_pdf() -> bool:
 
 
 def build_zip() -> tuple[Path, int]:
-    if SUP_ZIP.exists():
-        SUP_ZIP.unlink()
+    tmp_zip = SUP_ZIP.with_name(SUP_ZIP.stem + "_build.zip")
+    if tmp_zip.exists():
+        tmp_zip.unlink()
     count = 0
-    with zipfile.ZipFile(SUP_ZIP, "w", zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(tmp_zip, "w", zipfile.ZIP_DEFLATED) as zf:
         for path in sorted(PKG.rglob("*")):
             if not path.is_file():
                 continue
@@ -292,9 +326,31 @@ def build_zip() -> tuple[Path, int]:
                 continue
             zf.write(path, rel)
             count += 1
-    test = zipfile.ZipFile(SUP_ZIP).testzip()
+    test = zipfile.ZipFile(tmp_zip).testzip()
     if test is not None:
         raise RuntimeError(f"Corrupt ZIP entry: {test}")
+    for attempt in range(5):
+        try:
+            if SUP_ZIP.exists():
+                SUP_ZIP.unlink()
+            tmp_zip.replace(SUP_ZIP)
+            break
+        except PermissionError:
+            if attempt == 4:
+                fallback = SUP_ZIP.with_name(SUP_ZIP.stem + "_R2E.zip")
+                shutil.copyfile(tmp_zip, fallback)
+                tmp_zip.unlink(missing_ok=True)
+                print(
+                    "WARNING: could not overwrite locked ZIP;",
+                    SUP_ZIP,
+                    "\nFresh build written to:",
+                    fallback,
+                )
+                return fallback, count
+            import time
+            time.sleep(1.5)
+    else:
+        tmp_zip.unlink(missing_ok=True)
     return SUP_ZIP, count
 
 

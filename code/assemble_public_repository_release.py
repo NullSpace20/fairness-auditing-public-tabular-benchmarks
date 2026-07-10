@@ -42,6 +42,10 @@ CODE_FILES = (
     "run_revision_R2C_cfs_sensitivity.py",
     "assemble_supplementary_zip.py",
     "assemble_public_repository_release.py",
+    "sam_fair_select.py",
+    "run_intersectional_adult_baseline.py",
+    "run_xgboost_eg_probe.py",
+    "build_xgboost_eg_probe_table.py",
     "run_phase4b.py",
 )
 

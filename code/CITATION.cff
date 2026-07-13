@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code, please cite the associated manuscript."
+title: "Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness"
+authors:
+  - family-names: Samy
+    given-names: M.
+    email: mahmoud_samy@alexu.edu.eg
+  - family-names: Lazem
+    given-names: Shaimaa
+  - family-names: Gabr
+    given-names: M. M.
+  - family-names: "El-Nadi"
+    given-names: "Khairia El-Said"
+  - family-names: Fatehy
+    given-names: L. M.
+version: 1.0.0
+date-released: 2026-07-09
+doi: 10.5281/zenodo.21301052
+url: https://doi.org/10.5281/zenodo.21301052
+repository-code: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
+keywords:
+  - algorithmic fairness
+  - tabular benchmarks
+  - bias mitigation
+  - reproducibility
+license: ""

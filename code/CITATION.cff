@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software or reproducibility package, please cite it as below."
 title: "Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness"
-version: "v1.1.2"
+version: "v1.1.3"
 date-released: "2026-07-13"
 authors:
   - family-names: "Samy"

@@ -1,0 +1,11 @@
+{
+  "analysis": "xgboost_eg_probe",
+  "seeds": [
+    42,
+    43
+  ],
+  "n_runs": 12,
+  "n_success": 12,
+  "n_error": 0,
+  "not_part_of_main_grid": true
+}

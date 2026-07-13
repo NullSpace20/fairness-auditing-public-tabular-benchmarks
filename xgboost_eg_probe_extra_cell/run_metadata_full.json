@@ -1,0 +1,79 @@
+{
+  "analysis": "optional_extra_eg_probe_cell_W2",
+  "label": "extra EG probe",
+  "not_part_of_main_grid": true,
+  "not_in_figure_6": true,
+  "not_in_table_7_pooled": true,
+  "model": "xgboost",
+  "constraints": [
+    "DP",
+    "EO"
+  ],
+  "primary_setting": "adult_age_group",
+  "fallback_setting": "acs_income_sex",
+  "selected_setting": "adult_age_group",
+  "selection_reason": "manual --setting primary",
+  "seeds": "42-71",
+  "n_runs_attempted": 60,
+  "n_success": 60,
+  "n_error": 0,
+  "run_meta": {
+    "setting_id": "adult_age_group",
+    "dataset": "adult",
+    "protected_attribute": "age_group",
+    "seeds": "42-71",
+    "n_runs": 60,
+    "n_success": 60,
+    "n_error": 0,
+    "load_meta": {
+      "status": "loaded",
+      "source_path": "C:\\Users\\mahmo\\Desktop\\MY Research Paper 2 (stock)\\Code\\data\\adult.csv",
+      "read_only": true,
+      "loader_summary": {
+        "rows": 32561,
+        "columns": 17,
+        "column_names": [
+          "workclass",
+          "education",
+          "education.num",
+          "marital.status",
+          "occupation",
+          "relationship",
+          "capital.gain",
+          "capital.loss",
+          "hours.per.week",
+          "native.country",
+          "income",
+          "sex_binary",
+          "race_binary",
+          "age_group",
+          "age_young_vs_middle",
+          "age_old_vs_middle",
+          "_age_band"
+        ],
+        "target_column": "income",
+        "missing_values_total": 12904,
+        "target_distribution": {
+          "0": 24720,
+          "1": 7841
+        },
+        "candidate_protected_attributes": {
+          "sex_binary": {
+            "n_unique": 2,
+            "value_counts": {
+              "1": 21790,
+              "0": 10771
+            }
+          },
+          "age_group": {
+            "n_unique": 2,
+            "value_counts": {
+              "1": 19657,
+              "0": 12904
+            }
+          }
+        }
+      }
+    }
+  }
+}

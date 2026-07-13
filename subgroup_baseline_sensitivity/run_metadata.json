@@ -1,0 +1,18 @@
+{
+  "analysis": "subgroup_baseline_sensitivity_R5",
+  "models": [
+    "logistic_regression",
+    "xgboost"
+  ],
+  "seeds": "42-71",
+  "min_cell_n_threshold": 30,
+  "analyses": [
+    "adult_sex_race",
+    "adult_sex_age",
+    "acs_sex_age",
+    "bank_age_job"
+  ],
+  "n_success": 240,
+  "n_total": 240,
+  "legacy_reuse": "adult_sex_race from intersectional_adult_baseline if present"
+}

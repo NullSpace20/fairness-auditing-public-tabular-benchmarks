@@ -1,0 +1,19 @@
+{
+  "analysis": "r1_samfair_di_scaled_validation",
+  "source_per_seed": "C:\\Users\\mahmo\\Desktop\\MY Research Paper 2 (stock)\\Paper_Springer_JBigData_Q1Upgrade\\Supplementary_Materials_and_Reproducibility_Package\\data_tables\\per_seed_full_results_3690.csv",
+  "source_acfs_rankings": "C:\\Users\\mahmo\\Desktop\\MY Research Paper 2 (stock)\\Paper_Springer_JBigData_Q1Upgrade\\Supplementary_Materials_and_Reproducibility_Package\\data_tables\\acfs_rankings.csv",
+  "candidate_scope": "Main-grid mitigations (baseline, reweighing, equalized_odds) on all five model families plus scoped Exponentiated Gradient (LR all settings; RF Adult sex and UCI Bank age_group only). XGBoost-EG probe excluded.",
+  "n_candidate_rows_acfs_rankings": 123,
+  "delta": 0.03,
+  "lambda": 0.0,
+  "rho": 0.0,
+  "variants": [
+    "original",
+    "di_clipped",
+    "four_fifths"
+  ],
+  "n_settings": 7,
+  "n_unchanged_di_clipped": 7,
+  "n_unchanged_four_fifths": 4,
+  "n_any_change": 3
+}

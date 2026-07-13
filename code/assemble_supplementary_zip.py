@@ -77,9 +77,18 @@ COPY = [
     (CODE / "build_manuscript_assets.py", "code/build_manuscript_assets.py"),
     (CODE / "pipeline_core.py", "code/pipeline_core.py"),
     (CODE / "sam_fair_select.py", "code/sam_fair_select.py"),
+    (CODE / "run_r1_samfair_di_scaled_validation.py", "code/run_r1_samfair_di_scaled_validation.py"),
     (CODE / "run_intersectional_adult_baseline.py", "code/run_intersectional_adult_baseline.py"),
+    (CODE / "run_subgroup_baseline_sensitivity.py", "code/run_subgroup_baseline_sensitivity.py"),
     (CODE / "run_xgboost_eg_probe.py", "code/run_xgboost_eg_probe.py"),
     (CODE / "build_xgboost_eg_probe_table.py", "code/build_xgboost_eg_probe_table.py"),
+    (CODE / "run_xgboost_hyperparameter_sensitivity.py", "code/run_xgboost_hyperparameter_sensitivity.py"),
+    (CODE / "build_xgboost_hp_sensitivity_table.py", "code/build_xgboost_hp_sensitivity_table.py"),
+    (CODE / "run_subgroup_mitigation_sensitivity.py", "code/run_subgroup_mitigation_sensitivity.py"),
+    (CODE / "build_subgroup_mitigation_table.py", "code/build_subgroup_mitigation_table.py"),
+    (CODE / "run_xgboost_eg_probe_extra_cell.py", "code/run_xgboost_eg_probe_extra_cell.py"),
+    (CODE / "build_extra_eg_probe_cell_table.py", "code/build_extra_eg_probe_cell_table.py"),
+    (CODE / "build_auditor_checklist_figure.py", "code/build_auditor_checklist_figure.py"),
 ]
 
 FIG_NAMES = [
@@ -90,13 +99,19 @@ FIG_NAMES = [
     "fig_pareto_accuracy_fairness",
     "fig_eg_vs_aif360",
     "fig_runtime_comparison",
+    "fig_auditor_checklist",
 ]
 
 R2A = Q1 / "results" / "revision_R2_age_robustness"
 R2B = Q1 / "results" / "revision_R2B_eo_calibration"
 R2C = Q1 / "results" / "revision_R2C_cfs_sensitivity"
+R1_SAM = Q1 / "results" / "r1_samfair_di_scaled_validation"
 R2_INTER = Q1 / "results" / "intersectional_adult_baseline"
+R5_SUBGROUP = Q1 / "results" / "subgroup_baseline_sensitivity"
 R2_XGB = Q1 / "results" / "xgboost_eg_probe"
+R4_XGB_HP = Q1 / "results" / "xgboost_hyperparameter_sensitivity"
+R3_SUBGROUP_MIT = Q1 / "results" / "subgroup_mitigation_sensitivity"
+R2_EG_EXTRA = Q1 / "results" / "xgboost_eg_probe_extra_cell"
 
 REVISION_COPY: list[tuple[Path, str, list[str]]] = [
     (
@@ -132,11 +147,32 @@ REVISION_COPY: list[tuple[Path, str, list[str]]] = [
         ],
     ),
     (
+        R1_SAM,
+        "revision_robustness/sam_fair_di_scaled",
+        [
+            "sam_fair_di_scaled_stability.csv",
+            "run_metadata.json",
+        ],
+    ),
+    (
         R2_INTER,
         "revision_robustness/intersectional_adult_baseline",
         [
             "intersectional_per_seed.csv",
             "intersectional_summary.csv",
+            "run_metadata.json",
+        ],
+    ),
+    (
+        R5_SUBGROUP,
+        "revision_robustness/subgroup_baseline_sensitivity",
+        [
+            "subgroup_per_seed_all.csv",
+            "subgroup_summary_all.csv",
+            "adult_sex_race_per_seed.csv",
+            "adult_sex_age_per_seed.csv",
+            "acs_sex_age_per_seed.csv",
+            "bank_age_job_per_seed.csv",
             "run_metadata.json",
         ],
     ),
@@ -150,6 +186,33 @@ REVISION_COPY: list[tuple[Path, str, list[str]]] = [
             "xgboost_eg_probe_full_per_seed.csv",
             "xgboost_eg_probe_full_summary.csv",
             "xgboost_eg_probe_full_metadata.json",
+        ],
+    ),
+    (
+        R4_XGB_HP,
+        "revision_robustness/xgboost_hyperparameter_sensitivity",
+        [
+            "xgboost_hp_sensitivity_full_per_seed.csv",
+            "xgboost_hp_sensitivity_full_summary.csv",
+            "run_metadata_full.json",
+        ],
+    ),
+    (
+        R3_SUBGROUP_MIT,
+        "revision_robustness/subgroup_mitigation_sensitivity",
+        [
+            "subgroup_mitigation_full_per_seed.csv",
+            "subgroup_mitigation_full_summary.csv",
+            "run_metadata_full.json",
+        ],
+    ),
+    (
+        R2_EG_EXTRA,
+        "revision_robustness/xgboost_eg_probe_extra_cell",
+        [
+            "extra_eg_probe_cell_full_per_seed.csv",
+            "extra_eg_probe_cell_full_summary.csv",
+            "run_metadata_full.json",
         ],
     ),
 ]
@@ -268,7 +331,7 @@ def write_repro_fact_sheet() -> None:
 ## Public archive
 
 - GitHub: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
-- Zenodo (this release): https://doi.org/10.5281/zenodo.21284708
+- Zenodo (this release): https://doi.org/10.5281/zenodo.21301052
 """
     (PKG / "REPRODUCIBILITY_FACT_SHEET.md").write_text(txt, encoding="utf-8")
 

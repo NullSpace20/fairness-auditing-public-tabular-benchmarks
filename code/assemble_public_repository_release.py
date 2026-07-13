@@ -44,8 +44,17 @@ CODE_FILES = (
     "assemble_public_repository_release.py",
     "sam_fair_select.py",
     "run_intersectional_adult_baseline.py",
+    "run_subgroup_baseline_sensitivity.py",
+    "run_r1_samfair_di_scaled_validation.py",
     "run_xgboost_eg_probe.py",
     "build_xgboost_eg_probe_table.py",
+    "run_xgboost_hyperparameter_sensitivity.py",
+    "build_xgboost_hp_sensitivity_table.py",
+    "run_subgroup_mitigation_sensitivity.py",
+    "build_subgroup_mitigation_table.py",
+    "run_xgboost_eg_probe_extra_cell.py",
+    "build_extra_eg_probe_cell_table.py",
+    "build_auditor_checklist_figure.py",
     "run_phase4b.py",
 )
 

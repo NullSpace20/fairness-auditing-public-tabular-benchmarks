@@ -546,6 +546,90 @@ def fig_runtime(df: pd.DataFrame) -> None:
     _save(fig, "fig_runtime_comparison")
 
 
+def build_sam_fair_di_stability() -> None:
+    """SAM-Fair selection stability under DI-scaled composites (R1)."""
+    csv_path = (
+        Q1_ROOT
+        / "results"
+        / "r1_samfair_di_scaled_validation"
+        / "sam_fair_di_scaled_stability.csv"
+    )
+    if not csv_path.exists():
+        alt = (
+            MS
+            / "Supplementary_Materials_and_Reproducibility_Package"
+            / "revision_robustness"
+            / "sam_fair_di_scaled"
+            / "sam_fair_di_scaled_stability.csv"
+        )
+        csv_path = alt if alt.exists() else csv_path
+    df = pd.read_csv(csv_path)
+
+    model_short = {
+        "logistic_regression": "LR",
+        "random_forest": "RF",
+        "gradient_boosting": "GB",
+        "xgboost": "XGB",
+        "mlp": "MLP",
+    }
+    mit_short = {
+        "baseline": "Baseline",
+        "reweighing": "RW",
+        "equalized_odds": "EO",
+        "ExponentiatedGradient_DP": "EG-DP",
+        "ExponentiatedGradient_EO": "EG-EO",
+    }
+
+    def sel(model: str, mit: str) -> str:
+        return f"{esc(model_short.get(model, model))}+{esc(mit_short.get(mit, mit))}"
+
+    def fmt(r):
+        orig = sel(r["orig_model"], r["orig_mitigation"])
+        clip = sel(r["di_clipped_model"], r["di_clipped_mitigation"])
+        ff = sel(r["four_fifths_model"], r["four_fifths_mitigation"])
+        changed = "Yes" if r["selection_changed"] == "yes" else "No"
+        note = esc(r["interpretation"])
+        if len(note) > 72:
+            note = note[:69] + "\\ldots"
+        return " & ".join(
+            [
+                esc(r["dataset_label"]),
+                esc(r["protected_attribute"]),
+                orig,
+                clip,
+                ff,
+                changed,
+                note,
+            ]
+        )
+
+    inner = tabular(
+        df,
+        "llllllp{3.2cm}",
+        [
+            "Dataset",
+            "Protected",
+            "Original",
+            "DI-clipped",
+            "Four-fifths",
+            "Changed?",
+            "Note",
+        ],
+        fmt,
+    )
+    cap = (
+        "SAM-Fair selection stability under DI-scaled composites ($\\delta{=}0.03$, "
+        "$\\lambda{=}\\rho{=}0$; balanced weights). Original uses mean CFS with "
+        "$|1{-}\\mathrm{DI}|$; DI-clipped uses $\\min(|1{-}\\mathrm{DI}|,1)$; "
+        "four-fifths uses a bounded penalty outside $[0.8,1.25]$. Candidate scope "
+        "matches Table~\\ref{tab:sam-fair}. Full detail in Additional file~1."
+    )
+    write(
+        "tab_sam_fair_di_stability",
+        wrap_table(inner, cap, "tab:sam-fair-di-stability", small=True, resize=True),
+    )
+
+
 def build_figures() -> None:
     agg = _load_agg()
     raw = _load_raw()
@@ -570,6 +654,7 @@ def main() -> None:
     build_pareto()
     build_best_pairs()
     build_stats()
+    build_sam_fair_di_stability()
     build_figures()
     print("Tables:", sorted(p.name for p in MS_TABLES.glob("*.tex")))
     print("Figures:", sorted(p.name for p in MS_FIGS.glob("*.pdf")))

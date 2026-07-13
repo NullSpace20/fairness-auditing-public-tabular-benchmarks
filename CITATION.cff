@@ -15,8 +15,8 @@ authors:
     given-names: L. M.
 version: 1.0.0
 date-released: 2026-07-09
-doi: 10.5281/zenodo.21284708
-url: https://doi.org/10.5281/zenodo.21284708
+doi: 10.5281/zenodo.21301052
+url: https://doi.org/10.5281/zenodo.21301052
 repository-code: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
 keywords:
   - algorithmic fairness

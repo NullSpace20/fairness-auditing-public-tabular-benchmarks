@@ -50,4 +50,4 @@ Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias
 ## Public archive
 
 - GitHub: https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks
-- Zenodo (this release): https://doi.org/10.5281/zenodo.21284708
+- Zenodo (this release): https://doi.org/10.5281/zenodo.21301052

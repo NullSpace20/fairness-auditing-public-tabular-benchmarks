@@ -1,13 +1,13 @@
 # Fairness Auditing in Tabular Machine Learning
 
-[![DOI](https://zenodo.org/badge/1295670467.svg)](https://doi.org/10.5281/zenodo.21284707)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21301052.svg)](https://doi.org/10.5281/zenodo.21301052)
 
 Processed outputs, analysis code, and reproducibility materials for the manuscript
 *Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness*
 (Journal of Big Data).
 
 **Repository:** https://github.com/NullSpace20/fairness-auditing-public-tabular-benchmarks  
-**Zenodo (this release):** https://doi.org/10.5281/zenodo.21284708
+**Zenodo (this release):** https://doi.org/10.5281/zenodo.21301052
 
 ## Authors
 
@@ -65,9 +65,9 @@ the archived CSVs in `revision_robustness/` document the reported sensitivity ch
 
 ## Archiving and DOI
 
-This release is archived on Zenodo. Cite version DOI **10.5281/zenodo.21284708**
-(https://doi.org/10.5281/zenodo.21284708). The Zenodo badge above links to the
-concept DOI record for the repository series.
+This release is archived on Zenodo. Cite version DOI **10.5281/zenodo.21301052**
+(https://doi.org/10.5281/zenodo.21301052). The Zenodo badge above links to this
+release's version DOI record.
 
 ## License
 
@@ -75,4 +75,4 @@ See `LICENSE_NOTE.txt`. Authors must choose a license before public release.
 
 ## Citation
 
-See `CITATION.cff` for metadata. Preferred citation uses DOI `10.5281/zenodo.21284708`.
+See `CITATION.cff` for metadata. Preferred citation uses DOI `10.5281/zenodo.21301052`.

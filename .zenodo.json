@@ -1,0 +1,35 @@
+{
+  "title": "Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness",
+  "upload_type": "software",
+  "description": "Final Q1 submission reproducibility package for the manuscript Fairness Auditing in Tabular Machine Learning: A Multi-Dataset Benchmark of Bias, Mitigation, and Robustness. This release includes processed outputs, analysis code, SAM-Fair selection scripts, robustness checks, XGBoost-EG probe outputs, subgroup sensitivity outputs, optional sensitivity analyses, supplementary tables, figures, and reproducibility materials.",
+  "creators": [
+    {
+      "name": "Samy, M."
+    },
+    {
+      "name": "Lazem, Shaimaa"
+    },
+    {
+      "name": "Gabr, M. M."
+    },
+    {
+      "name": "El-Nadi, Khairia El-Said"
+    },
+    {
+      "name": "Fatehy, L. M."
+    }
+  ],
+  "keywords": [
+    "fairness auditing",
+    "tabular machine learning",
+    "bias mitigation",
+    "SAM-Fair",
+    "reproducibility",
+    "ACSIncome",
+    "UCI Bank Marketing",
+    "group fairness"
+  ],
+  "license": "MIT",
+  "version": "v1.1.4",
+  "access_right": "open"
+}
